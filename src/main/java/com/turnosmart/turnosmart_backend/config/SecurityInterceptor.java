@@ -32,11 +32,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        if (requestURI.startsWith("/cliente") && !"CLIENTE".equals(rolElegido)) {
-            response.sendRedirect("/login?error=acceso_denegado");
-            return false;
-        }
-
+        // Permite que ADMIN, ABOGADO y CLIENTE accedan al portal cliente
         return true;
     }
 }

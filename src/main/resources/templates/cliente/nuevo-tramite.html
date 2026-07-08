@@ -25,6 +25,12 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        .navbar-custom {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+        }
+
         .form-card {
             border: none;
             border-radius: 24px;
@@ -116,6 +122,56 @@
     </style>
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-custom shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary d-flex align-items-center me-4" th:href="@{/cliente/dashboard}">
+            <i class="bi bi-intersect me-2"></i> Turnosmart
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold text-dark" th:href="@{/cliente/dashboard}"><i class="bi bi-speedometer2 me-1"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold text-dark" th:href="@{/cliente/catalogo}"><i class="bi bi-journal-text me-1"></i> Catálogo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold text-dark" th:href="@{/cliente/perfil}"><i class="bi bi-person-circle me-1"></i> Mi Perfil</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <!-- Back to Dashboard for Admin or Abogado -->
+            <a th:if="${session.rolElegido == 'ADMIN'}" th:href="@{/admin/dashboard}" class="btn btn-sm btn-primary rounded-pill px-3 fw-semibold shadow-sm d-flex align-items-center gap-1">
+                <i class="bi bi-shield-check"></i> <span>Panel Admin</span>
+            </a>
+            <a th:if="${session.rolElegido == 'ABOGADO'}" th:href="@{/abogado/dashboard}" class="btn btn-sm btn-primary rounded-pill px-3 fw-semibold shadow-sm d-flex align-items-center gap-1">
+                <i class="bi bi-briefcase"></i> <span>Panel Abogado</span>
+            </a>
+
+            <div class="text-end d-none d-md-block">
+                <p class="mb-0 small fw-bold" th:text="${session.loggedUser.firstName + ' ' + session.loggedUser.lastName}">Nombre Usuario</p>
+                <p class="mb-0 x-small text-muted" style="font-size: 0.7rem;" 
+                   th:text="${session.rolElegido == 'ADMIN' ? 'Administrador' : (session.rolElegido == 'ABOGADO' ? 'Especialista Legal' : 'Cliente Verificado')}">
+                   Cliente Verificado
+                </p>
+            </div>
+
+            <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold shadow-sm d-flex align-items-center gap-1">
+                <i class="bi bi-box-arrow-right"></i> <span>Salir</span>
+            </a>
+
+            <div>
+                <img th:src="'https://ui-avatars.com/api/?name=' + ${session.loggedUser.firstName} + '&background=2563eb&color=fff&bold=true'"
+                     class="rounded-circle border border-2 border-white shadow-sm" width="44" alt="Avatar">
+            </div>
+        </div>
+    </div>
+</nav>
 
 <div class="container py-5">
     <div class="row justify-content-center">

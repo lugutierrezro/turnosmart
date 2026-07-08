@@ -29,13 +29,10 @@ public class AppointmentController {
 
     @GetMapping("/crear")
     public String viewCrearTurno(Model model, HttpSession session) {
-        String rol = (String) session.getAttribute("rolElegido");
-
-        if (!"CLIENTE".equals(rol)) {
-            return "redirect:/admin/dashboard";
-        }
-
         User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("usuarioLogueado", loggedUser);
 
         model.addAttribute("abogados", lawyerService.findAll());
