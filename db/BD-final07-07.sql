@@ -92,7 +92,7 @@ CREATE TABLE `appointments` (
   `appointment_time` time NOT NULL,
   `client_dni` varchar(255) DEFAULT NULL,
   `notes` text,
-  `status` enum('SOLICITADO','REVISION','REDACCION','LISTO_FIRMA','FIRMADO','PROTOCOLIZACION','ENTREGADO','CANCELADO') NOT NULL DEFAULT 'SOLICITADO',
+  `status` varchar(50) NOT NULL DEFAULT 'SOLICITADO',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `priority` varchar(255) DEFAULT NULL,
