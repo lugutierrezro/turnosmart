@@ -14,7 +14,11 @@
             --accent: #3b82f6;
             --bg-body: #f1f5f9;
         }
-        body { background-color: var(--bg-body); font-family: 'Inter', sans-serif; }
+        body {
+            background: linear-gradient(135deg, rgba(241, 245, 249, 0.88) 0%, rgba(241, 245, 249, 0.95) 100%), url('/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Inter', sans-serif;
+        }
 
         .table-container { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .status-pill { font-size: 0.75rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 50px; text-transform: uppercase; }
