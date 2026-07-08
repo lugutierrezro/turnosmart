@@ -244,8 +244,138 @@
         </div>
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <!-- El contenido de la tabla se genera dinámicamente si es necesario, o es manejado por el framework -->
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Ticket</th>
+                        <th>Cliente</th>
+                        <th>Especialista</th>
+                        <th>Trámite</th>
+                        <th>Costo</th>
+                        <th>Prioridad</th>
+                        <th>Pago</th>
+                        <th>Estado</th>
+                        <th class="text-center pe-4">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(tramites)}">
+                        <td colspan="9" class="text-center py-5 text-muted">
+                            <i class="bi bi-folder2-open fs-2 d-block mb-2"></i>
+                            No hay ningún trámite registrado en el sistema.
+                        </td>
+                    </tr>
+                    <tr th:each="tramite : ${tramites}">
+                        <td class="ps-4 fw-bold text-primary" th:text="${tramite.ticketNumber}">TS-1234</td>
+                        <td>
+                            <div class="fw-semibold" th:text="${tramite.client.firstName + ' ' + tramite.client.lastName}">Juan Pérez</div>
+                            <small class="text-muted" th:text="'DNI: ' + ${tramite.client.dni}">DNI: 12345678</small>
+                        </td>
+                        <td>
+                            <div class="fw-semibold" th:text="${tramite.lawyer.user.firstName + ' ' + tramite.lawyer.user.lastName}">Dr. Castro</div>
+                            <small class="text-muted" th:text="${tramite.lawyer.specialization}">Derecho Civil</small>
+                        </td>
+                        <td th:text="${tramite.procedureType.name}">Poder Notarial</td>
+                        <td class="fw-bold" th:text="'S/ ' + ${#numbers.formatDecimal(tramite.procedureType.price, 1, 2)}">S/ 120.00</td>
+                        <td>
+                            <span class="badge" th:classappend="${tramite.priority == 'Alta' ? 'bg-danger-subtle text-danger' : (tramite.priority == 'Normal' ? 'bg-primary-subtle text-primary' : 'bg-secondary-subtle text-secondary')}" th:text="${tramite.priority}">Normal</span>
+                        </td>
+                        <td>
+                            <span th:if="${tramite.isPaid}" class="badge bg-success-subtle text-success">
+                                <i class="bi bi-check-circle-fill me-1"></i> Pagado
+                            </span>
+                            <span th:unless="${tramite.isPaid}" class="badge bg-warning-subtle text-warning">
+                                <i class="bi bi-clock-fill me-1"></i> Pendiente
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-pill" th:classappend="${tramite.status.getColorClass()}" th:text="${tramite.status.getLabel()}">SOLICITADO</span>
+                        </td>
+                        <td class="text-center pe-4">
+                            <button class="btn btn-outline-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" th:data-bs-target="'#modalDetail' + ${tramite.id}">
+                                <i class="bi bi-eye"></i> Detalle
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modales de Detalle para cada Trámite -->
+<div th:each="tramite : ${tramites}" class="modal fade" th:id="'modalDetail' + ${tramite.id}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+            <div class="modal-header bg-light border-bottom-0 py-3 px-4">
+                <h5 class="modal-title fw-bold text-dark d-flex align-items-center gap-2">
+                    <i class="bi bi-file-earmark-text-fill text-primary"></i>
+                    Detalle del Trámite: <span class="text-primary" th:text="${tramite.ticketNumber}">TS-1234</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-4">
+                    <!-- Sección de Cliente e Información del Trámite -->
+                    <div class="col-md-6 border-end">
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-person-fill me-2"></i>Información del Cliente</h6>
+                        <div class="bg-light p-3 rounded-3 mb-3 border">
+                            <p class="mb-2"><strong>Nombre:</strong> <span th:text="${tramite.client.firstName + ' ' + tramite.client.lastName}">Juan Pérez</span></p>
+                            <p class="mb-2"><strong>DNI:</strong> <span th:text="${tramite.client.dni}">12345678</span></p>
+                            <p class="mb-2"><strong>Email:</strong> <span th:text="${tramite.client.email}">correo@ejemplo.com</span></p>
+                            <p class="mb-0"><strong>Teléfono:</strong> <span th:text="${tramite.client.phone != null ? tramite.client.phone : '-'}">-</span></p>
+                        </div>
+
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-info-circle-fill me-2"></i>Detalles del Servicio</h6>
+                        <div class="bg-light p-3 rounded-3 border">
+                            <p class="mb-2"><strong>Tipo de Trámite:</strong> <span th:text="${tramite.procedureType.name}">Poder Notarial</span></p>
+                            <p class="mb-2"><strong>Costo:</strong> <span class="fw-semibold text-success" th:text="'S/ ' + ${#numbers.formatDecimal(tramite.procedureType.price, 1, 2)}">S/ 120.00</span></p>
+                            <p class="mb-2"><strong>Prioridad:</strong> <span th:text="${tramite.priority}">Normal</span></p>
+                            <p class="mb-0"><strong>Representación:</strong> <span th:text="${tramite.representationType == 'JURIDICA' ? 'Persona Jurídica (RUC: ' + tramite.identifier + ')' : 'Persona Natural'}">Persona Natural</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Sección de Asignación y Estado de Pago -->
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-person-workspace me-2"></i>Especialista Asignado</h6>
+                        <div class="bg-light p-3 rounded-3 mb-3 border">
+                            <p class="mb-2"><strong>Abogado:</strong> <span th:text="${tramite.lawyer.user.firstName + ' ' + tramite.lawyer.user.lastName}">Dr. Castro</span></p>
+                            <p class="mb-2"><strong>Colegiatura:</strong> <span th:text="${tramite.lawyer.colegiatura}">CAL-74321</span></p>
+                            <p class="mb-0"><strong>Especialidad:</strong> <span th:text="${tramite.lawyer.specialization}">Familia</span></p>
+                        </div>
+
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-wallet2 me-2"></i>Estado de Pago</h6>
+                        <div class="bg-light p-3 rounded-3 mb-3 border">
+                            <p class="mb-2"><strong>Estado:</strong> 
+                                <span th:if="${tramite.isPaid}" class="badge bg-success">Pagado</span>
+                                <span th:unless="${tramite.isPaid}" class="badge bg-warning text-dark">Pendiente de Pago</span>
+                            </p>
+                            <div th:if="${tramite.paymentMethod != null}">
+                                <p class="mb-2"><strong>Método:</strong> <span th:text="${tramite.paymentMethod}">Yape</span></p>
+                                <p class="mb-0"><strong>Nro. Operación:</strong> <span class="fw-bold text-primary" th:text="${tramite.operationNumber}">OP-8827</span></p>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-calendar-event me-2"></i>Fecha de la Cita</h6>
+                        <div class="bg-light p-3 rounded-3 border">
+                            <p class="mb-2"><strong>Fecha:</strong> <span th:text="${tramite.appointmentDate != null ? tramite.appointmentDate : 'No programada'}">2026-07-08</span></p>
+                            <p class="mb-0"><strong>Hora:</strong> <span th:text="${tramite.appointmentTime != null ? tramite.appointmentTime : 'No programada'}">14:00</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notas y Observaciones -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card border bg-light p-3 rounded-3">
+                            <h6 class="fw-bold text-dark mb-2"><i class="bi bi-chat-left-text me-2"></i>Descripción del Requerimiento:</h6>
+                            <p class="text-muted mb-0 small" style="white-space: pre-wrap;" th:text="${tramite.clientNotes != null ? tramite.clientNotes : 'Sin notas por parte del cliente.'}">Notas...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 py-3 px-4">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>
