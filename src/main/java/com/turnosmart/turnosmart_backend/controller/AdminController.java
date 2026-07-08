@@ -31,7 +31,16 @@ public class AdminController {
         model.addAttribute("metrics", analyticsService.getDashboardMetrics(filter));
         model.addAttribute("currentFilter", filter);
 
+        long totalClientes = userService.findAll().stream()
+                .filter(u -> u.getEnabled() != null && u.getEnabled())
+                .filter(u -> u.getRoles().stream().anyMatch(r -> r.getName().equalsIgnoreCase("ROLE_CLIENTE") || r.getName().equalsIgnoreCase("CLIENTE")))
+                .count();
+        long totalAbogados = lawyerService.findAll().stream()
+                .filter(l -> l.getActive() != null && l.getActive())
+                .count();
 
+        model.addAttribute("totalClientes", totalClientes);
+        model.addAttribute("totalAbogados", totalAbogados);
         model.addAttribute("tramites", appointmentRepository.findAllWithDetails());
 
         return "admin/dashboard";

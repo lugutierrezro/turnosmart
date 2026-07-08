@@ -181,7 +181,8 @@
     </div>
 
     <div class="row g-4 mb-5">
-        <div class="col-md-3">
+        <!-- Total Trámites -->
+        <div class="col-xl-2 col-md-4 col-sm-6">
             <div class="card card-stat p-3">
                 <div class="d-flex align-items-center">
                     <div class="icon-shape bg-primary bg-opacity-10 text-primary me-3">
@@ -195,7 +196,38 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <!-- Clientes Registrados -->
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-stat p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-shape bg-info bg-opacity-10 text-info me-3">
+                        <i class="bi bi-people-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-0">Clientes Reg.</h6>
+                        <h4 class="fw-bold mb-0" th:text="${totalClientes}">0</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Abogados Activos -->
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-stat p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-shape bg-success bg-opacity-10 text-success me-3">
+                        <i class="bi bi-briefcase-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-0">Especialistas</h6>
+                        <h4 class="fw-bold mb-0" th:text="${totalAbogados}">0</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- En Revisión -->
+        <div class="col-xl-2 col-md-4 col-sm-6">
             <div class="card card-stat p-3">
                 <div class="d-flex align-items-center">
                     <div class="icon-shape bg-warning bg-opacity-10 text-warning me-3">
@@ -209,21 +241,8 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card card-stat p-3">
-                <div class="d-flex align-items-center">
-                    <div class="icon-shape bg-danger bg-opacity-10 text-danger me-3">
-                        <i class="bi bi-exclamation-triangle fs-5"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted small mb-0">Tasa Regularización</h6>
-                        <h4 class="fw-bold mb-0" th:text="${metrics.tasaReg}">0%</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
+        <!-- Eficiencia (Listos) -->
+        <div class="col-xl-2 col-md-4 col-sm-6">
             <div class="card card-stat p-3">
                 <div class="d-flex align-items-center">
                     <div class="icon-shape bg-success bg-opacity-10 text-success me-3">
@@ -232,6 +251,21 @@
                     <div>
                         <h6 class="text-muted small mb-0">Eficiencia (Listos)</h6>
                         <h4 class="fw-bold mb-0" th:text="${metrics.listos}">0</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tasa Regularización -->
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-stat p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-shape bg-danger bg-opacity-10 text-danger me-3">
+                        <i class="bi bi-exclamation-triangle fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-0">Tasa Regulariz.</h6>
+                        <h4 class="fw-bold mb-0" th:text="${metrics.tasaReg}">0%</h4>
                     </div>
                 </div>
             </div>
