@@ -8,11 +8,11 @@ ON DUPLICATE KEY UPDATE colegiatura = VALUES(colegiatura), specialization = VALU
 
 -- 2. Insertar nuevos usuarios (clientes y abogados adicionales)
 INSERT IGNORE INTO users (id, first_name, last_name, email, phone, password_hash, enabled, created_at, updated_at, birth_date, civil_status, dni, gender, account_locked, failed_attempts) VALUES
-(7, 'Maria', 'Lopez Lopez', 'maria@gmail.com', '987654321', '$2a$10$9c3qQ.Uu.WlD6W5F67P9Iux87z35eF1Vn5O9o2P2N0rB4qTz9k2S2', 1, NOW(), NOW(), '1990-05-15', 'Soltero/a', '45678912', 'F', 0, 0),
-(8, 'Jose', 'Perez Garcia', 'jose@gmail.com', '976543210', '$2a$10$9c3qQ.Uu.WlD6W5F67P9Iux87z35eF1Vn5O9o2P2N0rB4qTz9k2S2', 1, NOW(), NOW(), '1985-09-20', 'Casado/a', '32145678', 'M', 0, 0),
-(9, 'Ana', 'Gomez Ruiz', 'ana@gmail.com', '965432109', '$2a$10$9c3qQ.Uu.WlD6W5F67P9Iux87z35eF1Vn5O9o2P2N0rB4qTz9k2S2', 1, NOW(), NOW(), '1992-12-10', 'Divorciado/a', '98765432', 'F', 0, 0),
-(10, 'Pedro', 'Ruiz Chavez', 'pedro@gmail.com', '954321098', '$2a$10$9c3qQ.Uu.WlD6W5F67P9Iux87z35eF1Vn5O9o2P2N0rB4qTz9k2S2', 1, NOW(), NOW(), '1988-03-25', 'Soltero/a', '74185296', 'M', 0, 0),
-(11, 'Sofia', 'Castro Mendoza', 'sofia@turnosmart.com', '912345678', '$2a$10$9c3qQ.Uu.WlD6W5F67P9Iux87z35eF1Vn5O9o2P2N0rB4qTz9k2S2', 1, NOW(), NOW(), '1993-07-04', 'Soltero/a', '12398745', 'F', 0, 0);
+(7, 'Maria', 'Lopez Lopez', 'maria@gmail.com', '987654321', '$2a$10$q6ggajP7HK8Wr7fEctWOZe4m7kNKokqfHvQ4jZyCqEAKqmX2Y.rC2', 1, NOW(), NOW(), '1990-05-15', 'Soltero/a', '45678912', 'F', 0, 0),
+(8, 'Jose', 'Perez Garcia', 'jose@gmail.com', '976543210', '$2a$10$q6ggajP7HK8Wr7fEctWOZe4m7kNKokqfHvQ4jZyCqEAKqmX2Y.rC2', 1, NOW(), NOW(), '1985-09-20', 'Casado/a', '32145678', 'M', 0, 0),
+(9, 'Ana', 'Gomez Ruiz', 'ana@gmail.com', '965432109', '$2a$10$q6ggajP7HK8Wr7fEctWOZe4m7kNKokqfHvQ4jZyCqEAKqmX2Y.rC2', 1, NOW(), NOW(), '1992-12-10', 'Divorciado/a', '98765432', 'F', 0, 0),
+(10, 'Pedro', 'Ruiz Chavez', 'pedro@gmail.com', '954321098', '$2a$10$q6ggajP7HK8Wr7fEctWOZe4m7kNKokqfHvQ4jZyCqEAKqmX2Y.rC2', 1, NOW(), NOW(), '1988-03-25', 'Soltero/a', '74185296', 'M', 0, 0),
+(11, 'Sofia', 'Castro Mendoza', 'sofia@turnosmart.com', '912345678', '$2a$10$q6ggajP7HK8Wr7fEctWOZe4m7kNKokqfHvQ4jZyCqEAKqmX2Y.rC2', 1, NOW(), NOW(), '1993-07-04', 'Soltero/a', '12398745', 'F', 0, 0);
 
 -- 3. Vincular roles a los nuevos usuarios
 INSERT IGNORE INTO user_roles (user_id, role_id) VALUES
