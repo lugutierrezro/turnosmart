@@ -137,9 +137,67 @@
             text-align: center;
             color: var(--text-muted);
         }
+        .navbar-custom {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.75rem 0;
+        }
+        .navbar-custom .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .navbar-custom .nav-link:hover {
+            background-color: #f1f5f9;
+        }
+        .navbar-custom .nav-link.active {
+            background-color: #eff6ff;
+        }
     </style>
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-custom shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary d-flex align-items-center me-4" th:href="@{/admin/dashboard}">
+            <i class="bi bi-shield-check-fill me-2"></i> Turnosmart <span class="badge bg-primary ms-2" style="font-size: 0.55em; vertical-align: middle;">ADMIN</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAdmin" aria-controls="navbarNavAdmin" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAdmin">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold text-dark" th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold active text-primary" th:href="@{/admin/usuarios}"><i class="bi bi-people me-1"></i> Gestión Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold text-dark" th:href="@{/admin/abogados}"><i class="bi bi-person-workspace me-1"></i> Gestión Abogados</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold text-dark" th:href="@{/admin/reportes}"><i class="bi bi-bar-chart-line me-1"></i> Reportes Globales</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-end d-none d-md-block">
+                <p class="mb-0 small fw-bold" th:text="${session.loggedUser.firstName + ' ' + session.loggedUser.lastName}">Nombre Admin</p>
+                <p class="mb-0 x-small text-muted" style="font-size: 0.7rem;">Administrador Principal</p>
+            </div>
+
+            <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold shadow-sm d-flex align-items-center gap-1">
+                <i class="bi bi-box-arrow-right"></i> <span>Salir</span>
+            </a>
+
+            <div>
+                <img th:src="'https://ui-avatars.com/api/?name=' + ${session.loggedUser.firstName} + '&background=2563eb&color=fff&bold=true'"
+                     class="rounded-circle border border-2 border-white shadow-sm" width="44" alt="Avatar">
+            </div>
+        </div>
+    </div>
+</nav>
 
 <div class="container py-5">
 
