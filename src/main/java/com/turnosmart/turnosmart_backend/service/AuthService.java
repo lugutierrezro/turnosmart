@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -49,8 +50,31 @@ public class AuthService {
         User user = userOpt.get();
 
         // 1. CONTROL DE SEGURIDAD: Si ya superó los intentos, la cuenta está bloqueada
+        int LOCKOUT_DURATION_MINUTES = 5;
         if (user.getAccountLocked() != null && user.getAccountLocked()) {
-            throw new RuntimeException("La cuenta se encuentra bloqueada por superar el límite de 3 intentos fallidos.");
+            if (user.getLockTime() != null) {
+                LocalDateTime lockExpiration = user.getLockTime().plusMinutes(LOCKOUT_DURATION_MINUTES);
+                if (LocalDateTime.now().isAfter(lockExpiration)) {
+                    // El tiempo de bloqueo expiró, desbloqueamos la cuenta
+                    user.setAccountLocked(false);
+                    user.setFailedAttempts(0);
+                    user.setLockTime(null);
+                    userRepository.save(user);
+                } else {
+                    // Aún bloqueado, calculamos los segundos restantes
+                    long remainingSeconds = java.time.Duration.between(LocalDateTime.now(), lockExpiration).getSeconds();
+                    if (remainingSeconds < 0) remainingSeconds = 0;
+                    long minutes = remainingSeconds / 60;
+                    long seconds = remainingSeconds % 60;
+                    String timeStr = String.format("%02d:%02d", minutes, seconds);
+                    throw new RuntimeException("La cuenta se encuentra bloqueada por superar el límite de 3 intentos fallidos. Se desbloqueará en " + timeStr + " minutos. [COOLDOWN:" + remainingSeconds + "]");
+                }
+            } else {
+                // Por si acaso lockTime fuera nulo, lo reseteamos o bloqueamos con la hora actual
+                user.setLockTime(LocalDateTime.now());
+                userRepository.save(user);
+                throw new RuntimeException("La cuenta se encuentra bloqueada por superar el límite de 3 intentos fallidos. Se desbloqueará en 05:00 minutos. [COOLDOWN:300]");
+            }
         }
 
         // 2. VERIFICACIÓN DE CREDENCIALES
@@ -58,6 +82,8 @@ public class AuthService {
             // Si la clave es correcta y tenía intentos acumulados, los limpiamos a 0
             if (user.getFailedAttempts() == null || user.getFailedAttempts() > 0) {
                 user.setFailedAttempts(0);
+                user.setLockTime(null);
+                user.setAccountLocked(false);
                 userRepository.save(user);
             }
             return true;
@@ -70,8 +96,9 @@ public class AuthService {
             // Si llega a 3 intentos incorrectos, bloqueamos la cuenta por completo
             if (currentAttempts >= 3) {
                 user.setAccountLocked(true);
+                user.setLockTime(LocalDateTime.now());
                 userRepository.save(user);
-                throw new RuntimeException("Contraseña incorrecta. La cuenta ha sido bloqueada tras 3 intentos fallidos.");
+                throw new RuntimeException("Contraseña incorrecta. La cuenta ha sido bloqueada tras 3 intentos fallidos. Se desbloqueará en 05:00 minutos. [COOLDOWN:300]");
             }
 
             userRepository.save(user);

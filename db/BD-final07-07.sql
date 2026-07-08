@@ -320,6 +320,7 @@ CREATE TABLE `users` (
   `gender` varchar(255) DEFAULT NULL,
   `account_locked` bit(1) NOT NULL,
   `failed_attempts` int NOT NULL,
+  `lock_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `UK6aphui3g30h49muho4c91n0yl` (`dni`)

@@ -58,6 +58,9 @@ public class User {
     @Column(name = "account_locked", nullable = false)
     private Boolean accountLocked = false;
 
+    @Column(name = "lock_time")
+    private LocalDateTime lockTime;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 

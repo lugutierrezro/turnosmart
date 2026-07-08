@@ -264,9 +264,9 @@
     <p class="subtitle">Ingresa tus credenciales para acceder</p>
 
     <!-- Alerta de Error -->
-    <div th:if="${error}" class="alert alert-danger">
+    <div th:if="${error}" class="alert alert-danger" id="loginErrorAlert">
         <i class="bi bi-exclamation-circle-fill"></i>
-        <span th:text="${error}">Credenciales incorrectas</span>
+        <span th:text="${error}" id="loginErrorMsg">Credenciales incorrectas</span>
     </div>
 
     <!-- Alerta de Éxito -->
@@ -318,6 +318,47 @@
                     toggleIcon.classList.add('bi-eye-slash');
                 }
             });
+        }
+
+        // Countdown timer for locked accounts
+        const errorMsgEl = document.querySelector('#loginErrorMsg');
+        if (errorMsgEl) {
+            const text = errorMsgEl.textContent;
+            const match = text.match(/\[COOLDOWN:(\d+)\]/);
+            if (match) {
+                let totalSeconds = parseInt(match[1], 10);
+                const baseText = text.replace(/\[COOLDOWN:\d+\]/, '').trim();
+                
+                function updateTimer() {
+                    if (totalSeconds <= 0) {
+                        clearInterval(intervalId);
+                        errorMsgEl.textContent = "El tiempo de bloqueo ha terminado. Ya puedes intentar iniciar sesión nuevamente.";
+                        const alertEl = document.querySelector('#loginErrorAlert');
+                        if (alertEl) {
+                            alertEl.classList.remove('alert-danger');
+                            alertEl.classList.add('alert-success');
+                            const iconEl = alertEl.querySelector('i');
+                            if (iconEl) {
+                                iconEl.classList.remove('bi-exclamation-circle-fill');
+                                iconEl.classList.add('bi-check-circle-fill');
+                            }
+                        }
+                        return;
+                    }
+                    
+                    const minutes = Math.floor(totalSeconds / 60);
+                    const seconds = totalSeconds % 60;
+                    const timeStr = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                    
+                    const updatedText = baseText.replace(/\d{2}:\d{2}/, timeStr);
+                    errorMsgEl.textContent = updatedText;
+                    
+                    totalSeconds--;
+                }
+                
+                updateTimer();
+                const intervalId = setInterval(updateTimer, 1000);
+            }
         }
     });
 </script>
