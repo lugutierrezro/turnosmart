@@ -166,28 +166,40 @@
 
                         <div class="col-md-6">
                             <label class="form-label">Nombres</label>
-                            <input type="text" th:field="*{user.firstName}" class="form-control" placeholder="Ej. Carlos Alberto" required>
+                            <input type="text" th:field="*{user.firstName}" class="form-control" placeholder="Ej. Carlos Alberto" required
+                                   pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" maxlength="50"
+                                   onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 32 || event.charCode === 241 || event.charCode === 209 || [225, 233, 237, 243, 250, 193, 201, 205, 211, 218].includes(event.charCode)"
+                                   title="El nombre solo debe contener letras y espacios">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Apellidos</label>
-                            <input type="text" th:field="*{user.lastName}" class="form-control" placeholder="Ej. Rodriguez Paz" required>
+                            <input type="text" th:field="*{user.lastName}" class="form-control" placeholder="Ej. Rodriguez Paz" required
+                                   pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" maxlength="50"
+                                   onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 32 || event.charCode === 241 || event.charCode === 209 || [225, 233, 237, 243, 250, 193, 201, 205, 211, 218].includes(event.charCode)"
+                                   title="Los apellidos solo deben contener letras y espacios">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">DNI / ID Usuario</label>
                             <!-- Si estás editando (id != null), bloqueamos el DNI para que no lo alteren por error ya que es llave de negocio -->
-                            <input type="text" th:field="*{user.dni}" class="form-control" placeholder="Número de 8 dígitos" maxlength="8" required th:readonly="${lawyer.id != null}">
+                            <input type="text" th:field="*{user.dni}" class="form-control" placeholder="Número de 8 dígitos" maxlength="8" minlength="8" required 
+                                   pattern="[0-9]{8}" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                   title="El DNI debe tener exactamente 8 dígitos numéricos" th:readonly="${lawyer.id != null}">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Colegiatura (N° Carnet)</label>
-                            <input type="text" th:field="*{colegiatura}" class="form-control" placeholder="Ej. CAL 12345" required>
+                            <input type="text" th:field="*{colegiatura}" class="form-control" placeholder="Ej. CAL 12345" required
+                                   pattern="^[a-zA-Z0-9\s\-]+$" maxlength="20"
+                                   title="Solo se permiten letras, números, guiones y espacios para la colegiatura">
                         </div>
 
                         <div class="col-12">
                             <label class="form-label">Especialidad Jurídica</label>
-                            <input type="text" th:field="*{specialization}" class="form-control" placeholder="Ej. Derecho Corporativo, Civil y Familiar">
+                            <input type="text" th:field="*{specialization}" class="form-control" placeholder="Ej. Derecho Corporativo, Civil y Familiar"
+                                   pattern="^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\,\-]+$" maxlength="100"
+                                   title="Solo se permiten letras, números, comas, guiones y espacios">
                         </div>
 
                         <!-- Bloque 2 -->
@@ -199,7 +211,8 @@
                             <label class="form-label">Correo Institucional</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-envelope-at"></i></span>
-                                <input type="email" th:field="*{user.email}" class="form-control" placeholder="abogado@turnosmart.com" required>
+                                <input type="email" th:field="*{user.email}" class="form-control" placeholder="abogado@turnosmart.com" required
+                                       title="Debe ingresar un correo electrónico válido">
                             </div>
                         </div>
 
@@ -207,7 +220,10 @@
                             <label class="form-label">Teléfono WhatsApp</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-whatsapp"></i></span>
-                                <input type="tel" th:field="*{user.phone}" class="form-control" placeholder="987 654 321" required>
+                                <input type="tel" th:field="*{user.phone}" class="form-control" placeholder="987654321" required
+                                       pattern="9[0-9]{8}" maxlength="9" minlength="9"
+                                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                       title="El teléfono debe tener exactamente 9 dígitos y comenzar con 9">
                             </div>
                         </div>
 

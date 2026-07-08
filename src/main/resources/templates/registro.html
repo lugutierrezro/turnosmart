@@ -205,22 +205,32 @@
 
         <div class="field-group">
             <label>DNI</label>
-            <input type="text" th:field="*{dni}" placeholder="8 dígitos" required />
+            <input type="text" th:field="*{dni}" placeholder="8 dígitos" required 
+                   pattern="[0-9]{8}" maxlength="8" minlength="8"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                   title="El DNI debe tener exactamente 8 dígitos numéricos" />
         </div>
 
         <div class="field-group">
             <label>Correo Electrónico</label>
-            <input type="email" th:field="*{email}" placeholder="ejemplo@correo.com" required />
+            <input type="email" th:field="*{email}" placeholder="ejemplo@correo.com" required 
+                   title="Debe ingresar un correo electrónico válido" />
         </div>
 
         <div class="field-group">
             <label>Nombres</label>
-            <input type="text" th:field="*{firstName}" placeholder="Sus nombres" required />
+            <input type="text" th:field="*{firstName}" placeholder="Sus nombres" required 
+                   pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" maxlength="50"
+                   onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 32 || event.charCode === 241 || event.charCode === 209 || [225, 233, 237, 243, 250, 193, 201, 205, 211, 218].includes(event.charCode)"
+                   title="El nombre solo debe contener letras y espacios" />
         </div>
 
         <div class="field-group">
             <label>Apellidos</label>
-            <input type="text" th:field="*{lastName}" placeholder="Sus apellidos" required />
+            <input type="text" th:field="*{lastName}" placeholder="Sus apellidos" required 
+                   pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" maxlength="50"
+                   onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 32 || event.charCode === 241 || event.charCode === 209 || [225, 233, 237, 243, 250, 193, 201, 205, 211, 218].includes(event.charCode)"
+                   title="Los apellidos solo deben contener letras y espacios" />
         </div>
 
         <div class="field-group">
@@ -251,12 +261,16 @@
 
         <div class="field-group">
             <label>Teléfono</label>
-            <input type="text" th:field="*{phone}" placeholder="999 999 999" />
+            <input type="text" th:field="*{phone}" placeholder="9XXXXXXXX" required
+                   pattern="9[0-9]{8}" maxlength="9" minlength="9"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                   title="El teléfono debe tener exactamente 9 dígitos y comenzar con 9" />
         </div>
 
         <div class="field-group full-width">
             <label>Contraseña</label>
-            <input type="password" th:field="*{password}" placeholder="Mínimo 8 caracteres" required />
+            <input type="password" th:field="*{password}" placeholder="Mínimo 8 caracteres" required 
+                   minlength="8" title="La contraseña debe tener al menos 8 caracteres" />
         </div>
 
         <button type="submit">Finalizar Registro</button>
