@@ -98,6 +98,10 @@ public class AppointmentService {
         app.setIdentifier(dto.getIdentifier());
         app.setBusinessName(dto.getBusinessName());
         app.setStatus(AppointmentStatus.PENDIENTE_EVALUACION);
+        
+        // Asignar fecha y hora por defecto si no vienen en la solicitud
+        app.setAppointmentDate(dto.getDate() != null ? dto.getDate() : LocalDate.now());
+        app.setAppointmentTime(dto.getTime() != null ? dto.getTime() : LocalTime.now());
 
         // Datos de pago, ya validados arriba
         app.setPaymentMethod(dto.getPaymentMethod());
