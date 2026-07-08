@@ -11,35 +11,55 @@
         :root {
             --primary-color: #2563eb;
             --primary-hover: #1d4ed8;
-            --main-bg: #f8fafc; /* Gris azulado muy claro de la captura */
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #64748b;
             --white: #ffffff;
-            --border-color: #e2e8f0;
-            /* Sombra multinivel idéntica a la del dashboard */
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            --border-color: #cbd5e1;
+            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--main-bg);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.85) 100%), url('/background.jpg') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
+            padding: 1rem;
         }
 
         .login-card {
-            background: var(--white);
-            padding: 3.5rem 2.5rem;
-            border-radius: 24px; /* Bordes suaves como en el Módulo de Gestión */
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 3rem 2.25rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: var(--card-shadow);
             width: 100%;
             max-width: 420px;
             text-align: center;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Icono de marca circular */
@@ -52,14 +72,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 1.25rem;
             font-size: 1.8rem;
             box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.25);
         }
 
         h2 {
             color: var(--text-main);
-            font-size: 1.75rem;
+            font-size: 1.6rem;
             margin-bottom: 0.5rem;
             font-weight: 700;
             letter-spacing: -0.025em;
@@ -67,21 +87,22 @@
 
         p.subtitle {
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
         }
 
         form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.25rem;
             text-align: left;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 0.45rem;
+            width: 100%;
         }
 
         label {
@@ -90,59 +111,108 @@
             color: var(--text-main);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-left: 0.2rem;
+            margin-left: 0.1rem;
         }
 
-        input, select {
+        input {
             width: 100%;
-            padding: 0.8rem 1.2rem;
+            padding: 0.75rem 1rem;
             border: 1px solid var(--border-color);
-            border-radius: 12px; /* Redondeado tipo SaaS */
+            border-radius: 12px;
             font-size: 0.95rem;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            background-color: var(--white);
+            background-color: rgba(255, 255, 255, 0.9);
             color: var(--text-main);
-        }
-
-        input:focus, select:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
-        button {
+        input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+            background-color: #ffffff;
+        }
+
+        /* Password Wrapper for Eye Icon */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
             width: 100%;
-            padding: 1rem;
+        }
+
+        .password-wrapper input {
+            padding-right: 2.75rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 0.85rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.25rem;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            box-shadow: none;
+            width: auto;
+            height: auto;
+            margin: 0;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary-color);
+            background: none;
+            transform: none;
+            box-shadow: none;
+        }
+
+        button.btn-submit {
+            width: 100%;
+            padding: 0.85rem;
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 14px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
         }
 
-        button:hover {
+        button.btn-submit:hover {
             background-color: var(--primary-hover);
             transform: translateY(-1px);
             box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
         }
 
-        button:active {
+        button.btn-submit:active {
             transform: scale(0.98);
         }
 
-        .footer-link {
-            margin-top: 2rem;
-            display: block;
-            color: var(--primary-color);
+        /* Footer links */
+        .login-footer {
+            margin-top: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .footer-link, .footer-link-secondary {
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .footer-link {
+            color: var(--primary-color);
             font-weight: 600;
-            transition: color 0.2s;
         }
 
         .footer-link:hover {
@@ -150,12 +220,22 @@
             text-decoration: underline;
         }
 
+        .footer-link-secondary {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .footer-link-secondary:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
         /* Alertas estilizadas */
         .alert {
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             border-radius: 12px;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -196,19 +276,50 @@
     </div>
 
     <form th:action="@{/login}" method="post">
-        <div class="mb-3">
-            <label class="form-label">Correo Electrónico</label>
-            <input type="email" name="email" class="form-control" required>
+        <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" name="email" required placeholder="correo@ejemplo.com">
         </div>
-        <div class="mb-3">
-            <label class="form-label">Contraseña</label>
-            <input type="password" name="password" class="form-control" required>
+        <div class="form-group">
+            <label>Contraseña</label>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password" required placeholder="••••••••">
+                <button type="button" id="togglePassword" class="toggle-password" tabindex="-1">
+                    <i class="bi bi-eye" id="toggleIcon"></i>
+                </button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+        <button type="submit" class="btn-submit">Iniciar Sesión</button>
     </form>
 
-    <a href="/registro" class="footer-link">¿No tienes cuenta? Regístrate aquí</a>
+    <div class="login-footer">
+        <a href="/recuperar-contrasena" class="footer-link-secondary">¿Olvidaste tu contraseña?</a>
+        <a href="/registro" class="footer-link">¿No tienes cuenta? Regístrate aquí</a>
+    </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordInput = document.querySelector('#password');
+        const toggleIcon = document.querySelector('#toggleIcon');
+
+        if (togglePassword && passwordInput && toggleIcon) {
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Alternar el icono entre ver/ocultar
+                if (type === 'password') {
+                    toggleIcon.classList.remove('bi-eye-slash');
+                    toggleIcon.classList.add('bi-eye');
+                } else {
+                    toggleIcon.classList.remove('bi-eye');
+                    toggleIcon.classList.add('bi-eye-slash');
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
