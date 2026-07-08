@@ -46,7 +46,7 @@ public class AdminController {
 
         List<User> usuariosActivos = userService.findAll().stream()
                 .filter(u -> u.getEnabled() != null && u.getEnabled())
-                .filter(u -> u.getRoles().stream().anyMatch(r -> r.getName().equals("CLIENTE")))
+                .filter(u -> u.getRoles().stream().anyMatch(r -> r.getName().equalsIgnoreCase("ROLE_CLIENTE") || r.getName().equalsIgnoreCase("CLIENTE")))
                 .toList();
 
         model.addAttribute("usuarios", usuariosActivos);
