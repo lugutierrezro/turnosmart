@@ -18,7 +18,7 @@ public class AnalyticsService {
 
     public Map<String, Object> getDashboardMetrics(String filter) {
         LocalDateTime start = getStartDate(filter);
-        LocalDateTime end = LocalDateTime.now();
+        LocalDateTime end = LocalDateTime.now().plusDays(1);
 
         long total = appointmentRepo.countByCreatedAtBetween(start, end);
 
